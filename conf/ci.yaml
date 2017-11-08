@@ -16,5 +16,10 @@ remotes:
   # Default remote to push code and configuration
   {{ cluster.name }}:        # DO NOT edit this line
     <<: {}                   # DO NOT edit this line
-    
+
     # Add output of `hasura conf generate-remote` below this line
+    '{{ cluster.metadata.namespaces.user }}.app':
+      app:
+        dockerfile: services/app/Dockerfile
+        path: services/app
+
