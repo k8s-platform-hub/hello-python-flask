@@ -1,6 +1,21 @@
-# Stores the information about the clusters added to this project
-#
-# - This file gets populated with the cluster information when you run
-#   `hasura cluster add`
-# - When your project is published on hasura hub, this file will not
-#   have any information about your clusters
+- alias: hasura
+  config:
+    configmap: controller-conf
+    namespace: hasura
+  data: null
+  kubeContext: cheviot86
+  name: cheviot86
+- alias: new
+  config:
+    configmap: controller-conf
+    namespace: hasura
+  data: null
+  kubeContext: boardroom80
+  name: boardroom80
+- alias: danava
+  config:
+    configmap: controller-conf
+    namespace: accordance89-hasura
+  data: null
+  kubeContext: accordance89
+  name: accordance89

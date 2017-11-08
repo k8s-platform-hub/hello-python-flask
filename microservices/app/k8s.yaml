@@ -23,6 +23,8 @@ items:
           env:
           - name: PRODUCTION
             value: "true"
+          - name: CLUSTER_NAME 
+            value: {{ cluster.name }}
           imagePullPolicy: IfNotPresent
           name: app
           ports:

@@ -159,6 +159,8 @@ notify:
     upstreamServicePath: /
     upstreamServicePort: 80
     corsPolicy: allow_all
+
+# expose flask microserivce at a subdomain
 app:
   /:
     upstreamService:
@@ -168,4 +170,4 @@ app:
     upstreamServicePort: 80
     corsPolicy: allow_all
 
-# To see actual endpoints for these routes, use `$ hasura cluster status`
+# To see actual endpoints for these routes, use `$ hasura microserivce list`

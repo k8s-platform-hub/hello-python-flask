@@ -2,13 +2,23 @@
 #
 # All options are configured to read from the secret called hasura-secrets
 # To enable a provider:
-# 1. Add the required secrets. Checkout hasura secrets --help for more information
+# 1. Add the required secrets. Checkout `hasura secrets --help` for more information
 # 2. modify the default value to the provider that you want
 
 email:
-  # default can take values 'smtp' or 'sparkPost
+  # default can take values 'smtp', 'sparkPost' or 'mandrill'
   default: null
   providers:
+    hasura:
+      authToken:
+        secretKeyRef:
+          key: notify.hasura.token
+          name: hasura-secrets
+    mandrill:
+      apiKey:
+        secretKeyRef:
+          key: notify.mandrill.key
+          name: hasura-secrets
     smtp:
       hostname: ""
       password:
@@ -29,6 +39,11 @@ sms:
   # default can take values 'msg91' or 'twilio'
   default: null
   providers:
+    hasura:
+      authToken:
+        secretKeyRef:
+          key: notify.hasura.token
+          name: hasura-secrets
     msg91:
       from: ""
       authKey:
