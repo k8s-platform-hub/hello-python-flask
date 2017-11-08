@@ -1,4 +1,4 @@
-description: Blank template for a Hasura project
+description: A starter kit for python-flask with a sample schema and integration with Hasura data APIs.
 keywords: python, flask, getting-started
-name: base
+name: hello-python-flask
 platformVersion: v0.15.7
