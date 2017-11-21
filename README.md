@@ -220,10 +220,8 @@ The project (a.k.a. project directory) has a particular directory structure and 
 │   ├── 1504788327_create_table_user.up.yaml
 │   └── 1504788327_create_table_user.up.sql
 └── microservices
-    ├── adminer
-    │   └── k8s.yaml
-    └── flask
-        ├── src/
+    └── www
+        ├── app/
         ├── k8s.yaml
         └── Dockerfile
 ```

@@ -5,9 +5,9 @@ items:
   metadata:
     creationTimestamp: null
     labels:
-      app: app
+      app: www
       hasuraService: custom
-    name: app
+    name: www
     namespace: '{{ cluster.metadata.namespaces.user }}'
   spec:
     replicas: 1
@@ -16,7 +16,7 @@ items:
       metadata:
         creationTimestamp: null
         labels:
-          app: app
+          app: www
       spec:
         containers:
         - image: hasura/hello-world:latest
@@ -24,7 +24,7 @@ items:
           - name: PRODUCTION
             value: "true"
           imagePullPolicy: IfNotPresent
-          name: app
+          name: www
           ports:
           - containerPort: 8080
             protocol: TCP
@@ -37,9 +37,9 @@ items:
   metadata:
     creationTimestamp: null
     labels:
-      app: app
+      app: www
       hasuraService: custom
-    name: app
+    name: www
     namespace: '{{ cluster.metadata.namespaces.user }}'
   spec:
     ports:
@@ -47,7 +47,7 @@ items:
       protocol: TCP
       targetPort: 8080
     selector:
-      app: app
+      app: www
     type: ClusterIP
   status:
     loadBalancer: {}
