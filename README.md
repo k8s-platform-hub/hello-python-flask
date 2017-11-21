@@ -7,10 +7,9 @@ This is the right place to start if you are planning to build or want to learn t
 ## Sections
 
 * [Introduction](#introduction)
-* [Quickstart](#quickstart)
 * [Data API](#data-apis)
 * [Auth API](#auth-apis)
-* [Filestore API](#filestore-apis)
+* [Filestore API](#file-apis)
 * [Custom microservice](#custom-microservice)
 * [Migrate from an existing flask app](#migrate-from-an-existing-flask-app)
 * [Local development](#local-development)
@@ -22,55 +21,6 @@ This quickstart project comes with the following by default:
 1. A basic hasura project
 2. Two tables `article` and `author` with some dummy data
 3. A basic flask app which runs at the `app` subdomain which fetches a list of articles available at the 'get_articles' endpoint
-
-## Quickstart
-
-Follow this section to get this project working. Before you begin, ensure you have the latest version of hasura cli tool installed.
-
-### Step 1: Getting the project
-
-```sh
-$ hasura quickstart hello-python-flask
-$ cd hello-python-flask
-```
-
-The above command does the following:
-1. Creates a new folder in the current working directory called `hello-python-flask`
-2. Creates a new free hasura cluster for you and sets that cluster as the default cluster for this project
-3. Initializes `hello-python-flask` as a git repository and adds the necessary git remotes.
-
-### Step 2: Getting cluster information
-
-Every hasura project is run on a Hasura cluster. To get details about the cluster this project is running on:
-
-```sh
-$ hasura cluster status
-```
-
-This will give you your cluster status like so
-
-```sh
-INFO Status:
-Cluster Name:       h34-excise98-stg
-Cluster Alias:      hasura
-Kube Context:       h34-excise98-stg
-Platform Version:   v0.15.3
-Cluster State:      Synced
-```
-
-Keep a note of your cluster name. Alternatively, you can also go to your [hasura dashboard](https://dashboard.hasura.io) and see the clusters you have.
-
-### Step 3: Deploying on a hasura cluster
-
-To deploy your app:
-
-```sh
-$ git add .
-$ git commit -m "Initial Commit"
-$ git push hasura master
-```
-
-Once the above commands are executed successfully, head over to `https://app.cluster-name.hasura-app.io` (in this case `https://app.h34-excise98-stg.hasura-app.io`) to view your flask app.
 
 ### Api console
 
