@@ -9,22 +9,22 @@
       <blockquote>
       <p>Get started with a free Hasura Project</p>
       </blockquote>
-      <p>This quickstart consists of a basic hasura project with a simple nodejs express microservice running on it. Since you have pushed the project, this microservice is running at <a href="/">https://www.cluster-name.hasura-app.io</a></p>
+      <p>This quickstart consists of a basic hasura project with a simple python-flask microservice running on it. Since you have pushed the project, this microservice is running at <a href="/">https://www.cluster-name.hasura-app.io</a></p>
       <h2 id="sections">Sections</h2>
       <ul>
         <li><a href="#introduction">Introduction</a></li>
         <li><a href="#usage">Usage</a></li>
         <li><a href="#data-apis">Data API</a></li>
         <li><a href="#auth-apis">Auth API</a></li>
-        <li><a href="#filestore-apis">Filestore API</a></li>
-        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#file-apis">Filestore API</a></li>
+        <li><a href="#custom-microservices">Custom Microservices</a></li>
       </ul>
       <h2 id="introduction">Introduction</h2>
       <p>This quickstart project comes with the following by default:</p>
       <ol>
         <li>A basic hasura project</li>
         <li>Two tables <code>article</code> and <code>author</code> with some dummy data</li>
-        <li>A basic nodejs-express app which runs on the <code>www</code> subdomain.</li>
+        <li>A basic python-flask app which runs on the <code>www</code> subdomain.</li>
       </ol>
       <h2 id="usage">Usage</h2>
       <p>Now that you have deployed the project on your cluster, you would want to manage the schema and explore the Hasura APIs.</p>
@@ -309,6 +309,8 @@
       <li>This permissions setup can be further improved by creating custom roles. For example, the above schema can be improved by having an author role that can be given permissions to edit only the article table, and nothing else.</li>
       </ul>
       <p>This is very useful for a more complex schema, say a forum, with several types of users like admins, moderators, thread owners, and normal users.</p>
+      <h3 id="auth-apis">Auth APIs</h3>
+      <p>Every app almost always requires some form of authentication. This is useful to identify a user and provide some sort of personalised experience to the user. Hasura provides various types of authentication (username/password, mobile/otp, email/password, Google, Facebook etc). You can try out these in the API EXPLORER tab of the api console. To learn more, check out our <a href="https://docs.hasura.io/0.15/manual/users/index.html">docs</a>
       <h3 id="file-apis">File APIs</h3>
       <p>Sometimes, you would want to upload some files to the cloud. This can range from a profile pic for your user or images for things listed on your app. You can securely add, remove, manage, update files such as pictures, videos, documents using the Hasura filestore.</p>
       <p>This is done via simple POST, GET and DELETE requests on a single endpoint.</p>
@@ -340,7 +342,7 @@
       <p>You can also set up your own authorization webhook!<br>(Check out our <a href="https://docs.hasura.io/"> documentation </a> for more!)</p>
       <h3 id="notify-apis">Notify APIs</h3>
       <p>Check out the <a href="http://localhost:9695/learning-center"> Learning center </a> tab on the API Console for short tutorials on all the APIs!</p>
-      <h2 id="add-your-own-custom-microservice">Add your own custom microservice</h2>
+      <h2 id="custom-microservices">Add your own custom microservice</h2>
       <h4 id="docker-microservice">Docker microservice</h4>
       <p> This will just pull the image from docker-hub and run it as a microservice on Hasura. Just run the command
       <pre><code>$ hasura microservice generate &lt;service-name&gt; -i &lt;docker-image&gt; -p &lt;port&gt;
@@ -365,7 +367,7 @@
       $ git push hasura master
       </code></pre>
       <br>
-      <p>This quickstart project comes with one such microservice written using NodeJS-Express. It microservice demonstrates the use of the Data APIs at the /get_articles endpoint. Since this cluster comes with sample data in the form of articles and authors, we make use of the Hasura Data APIs to fetch all articles. Check <a href="/get_articles">here</a>.
+      <p>This quickstart project comes with one such microservice written in Python using Flask. It microservice demonstrates the use of the Data APIs at the /get_articles endpoint. Since this cluster comes with sample data in the form of articles and authors, we make use of the Hasura Data APIs to fetch all articles. Check <a href="/get_articles">here</a>.
       </p>
       <h2 id="files-and-directories">Files and Directories</h2>
       <p>The project (a.k.a. project directory) has a particular directory structure and it has to be maintained strictly, else <code>hasura</code> cli would not work as expected. A representative project is shown below:</p>
