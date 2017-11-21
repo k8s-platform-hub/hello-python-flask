@@ -9,7 +9,7 @@ This is the right place to start if you are planning to build or want to learn t
 * [Introduction](#introduction)
 * [Data API](#data-apis)
 * [Auth API](#auth-apis)
-* [Filestore API](#file-apis)
+* [File API](#file-apis)
 * [Custom microservice](#custom-microservice)
 * [Migrate from an existing flask app](#migrate-from-an-existing-flask-app)
 * [Local development](#local-development)
@@ -88,7 +88,7 @@ Every app almost always requires some form of authentication. This is useful to 
 
 You can try out these in the `API EXPLORER` tab of the `api console`. To learn more, check out our [docs](https://docs.hasura-stg.hasura-app.io/0.15/manual/users/index.html)
 
-## Filestore APIs
+## File APIs
 
 Sometimes, you would want to upload some files to the cloud. This can range from a profile pic for your user or images for things listed on your app. You can securely add, remove, manage, update files such as pictures, videos, documents using Hasura filestore.
 
