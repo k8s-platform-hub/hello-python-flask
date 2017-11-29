@@ -9,6 +9,11 @@ email:
   # default can take values 'smtp' or 'sparkPost
   default: null
   providers:
+    mandrill:
+      apiKey:
+        secretKeyRef:
+          key: notify.mandrill.key
+          name: hasura-secrets
     smtp:
       hostname: ""
       password:
