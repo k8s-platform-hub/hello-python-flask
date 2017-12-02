@@ -1,6 +1,6 @@
 # hello-python-flask
 
-This project consists of a basic Hasura project with a simple Python-Flask app running on it. Once this app is deployed on a Hasura cluster, you will have the app running at `https://api.<cluster-name>.hasura-app.io`
+This project consists of a basic Hasura project with a simple Python-Flask app running on it. Once this app is deployed on a Hasura cluster, you will have the app running at `https://www.<cluster-name>.hasura-app.io`
 
 This is the right place to start if you are planning to build or want to learn to build an Python-Flask app with Hasura.
 
@@ -50,13 +50,13 @@ $ git push hasura master
 ```
 When you push for the first time, it might take sometime. Next time onwards, it is really fast.
 
-Once the above commands are executed successfully, head over to `https://api.<cluster-name>.hasura-app.io` (in this case `https://api.h34-excise98-stg.hasura-app.io`) to view your app.
+Once the above commands are executed successfully, head over to `https://www.<cluster-name>.hasura-app.io` (in this case `https://www.h34-excise98-stg.hasura-app.io`) to view your app.
 
 ## Adding your existing Flask code
-The Flask microservice[1] sample code is inside the `microservices/api/app` directory. You can copy all your existing Flask code directly inside this directory, and start deploying your own Flask code to Hasura cluster.
+The Flask microservice[1] sample code is inside the `microservices/www/app` directory. You can copy all your existing Flask code directly inside this directory, and start deploying your own Flask code to Hasura cluster.
 
 ### Step 1: Add your Flask code in the microservices directory
-Copy all your exising Flask source code in `microservices/api/app` directory or replace the `microservices/api/app` directory with your app directory. Ensure that the structure of the directory is coherent with the current structure.
+Copy all your exising Flask source code in `microservices/www/app` directory or replace the `microservices/www/app` directory with your app directory. Ensure that the structure of the directory is coherent with the current structure.
 
 ### Step 2: Git add and commit
 ```
@@ -68,9 +68,9 @@ $ git commit -m "Added my Flask code"
 ```
 $ git push hasura master
 ```
-Now your Flask application should be running at: `https://api.<cluster-name>.hasura-app.io`
+Now your Flask application should be running at: `https://www.<cluster-name>.hasura-app.io`
 
-[1] a microservice is a running application on the Hasura cluster. This could be an API, a web app, a Javascript app etc.
+[1] a microservice is a running application on the Hasura cluster. This could be an www, a web app, a Javascript app etc.
 
 ## Hasura API console
 
@@ -146,7 +146,7 @@ You can try out these in the `API EXPLORER` tab of the `api console`. To learn m
 
 There might be cases where you might want to perform some custom business logic on your apis. For example, sending an email/sms to a user on sign up or sending a push notification to the mobile device when some event happens. For this, you would want to create your own custom microservice which does these for you on the endpoints that you define.
 
-This quickstart comes with one such custom microservice written in Python using the Flask framework. Check it out in action at `https://api.cluster-name.hasura-app.io` . Currently, it just returns a JSON response of "Hello World" at that endpoint.
+This quickstart comes with one such custom microservice written in Python using the Flask framework. Check it out in action at `https://www.cluster-name.hasura-app.io` . Currently, it just returns a JSON response of "Hello World" at that endpoint.
 
 In case you want to use another language/framework for your custom microservice. Take a look at our docs to see how you can add a new custom microservice.
 
@@ -159,7 +159,7 @@ Everytime you push, your code will get deployed on a public URL. However, for fa
 Follow these steps to test out your app locally
 
 ```sh
-$ cd microservices/api/
+$ cd microservices/www/
 $ docker build -t python-flask:<tag> .
 $ docker run -d -p 8080:8080 python-flask:<tag>
 ```
@@ -191,7 +191,7 @@ The project (a.k.a. project directory) has a particular directory structure and 
 │   ├── 1504788327_create_table_user.up.yaml
 │   └── 1504788327_create_table_user.up.sql
 └── microservices
-    └── api
+    └── www
         ├── app/
         ├── k8s.yaml
         └── Dockerfile
