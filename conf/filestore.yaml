@@ -18,7 +18,7 @@
 #
 # Default permissions are admin-only
 
-hookUrl: null
+hookUrl: http://localhost:8080/v1/hooks/public-read-user-write
 
 # volume
 # -------
