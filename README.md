@@ -71,7 +71,7 @@ To check out your `flask` app
 
 ```sh
 $ # www is the name of the flask app
-$ hasura microservice open api
+$ hasura microservice open www
 ```
 
 Alternatively, you can also open up the URL directly in your browser by navigating to `https://www.<cluster-name>.hasura-app.io` (Replace `<cluster-name>` with your cluster name, this case `bogey45`)
@@ -158,7 +158,7 @@ Everytime you push, your code will get deployed on a public URL. However, for fa
 You can use the following steps to test out your dockerfile locally before pushing it to your cluster
 
 ```sh
-$ # Navigate to the api directory
+$ # Navigate to the www directory
 $ cd microservices/www
 
 $ # Build the docker image (Note the . at the end, this searches for the Dockerfile in the current directory)
