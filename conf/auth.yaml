@@ -18,10 +18,10 @@ defaultProviders:
     enabled: "true"
     defaultRoles: []
   email:
-    enabled: "true"
+    enabled: "false"
     defaultRoles: []
   mobile:
-    enabled: "true"
+    enabled: "false"
     defaultRoles: []
   mobile-password:
     enabled: "false"
@@ -122,7 +122,7 @@ password:
 #  # your facebook app client secret
 #  clientSecret:
 #    secretKeyRef:
-#      key: auth.facebook.client.secret
+#      key: auth.facebook.client_secret
 #      name: hasura-secrets
 #
 # Configuration for github provider
@@ -132,7 +132,7 @@ password:
 #  # your github app client secret
 #  clientSecret:
 #    secretKeyRef:
-#      key: auth.github.client.secret
+#      key: auth.github.client_secret
 #      name: hasura-secrets
 #
 # Configuration for linkedin provider
@@ -142,7 +142,7 @@ password:
 #  # your linkedin app client secret
 #  clientSecret:
 #    secretKeyRef:
-#      key: auth.linkedin.client.secret
+#      key: auth.linkedin.client_secret
 #      name: hasura-secrets
 
 # Configuration for adding a custom provider
