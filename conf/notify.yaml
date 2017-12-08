@@ -6,7 +6,7 @@
 # 2. modify the default value to the provider that you want
 
 email:
-  # default can take values 'smtp' or 'sparkPost
+  # default can take values 'smtp', 'sparkPost' or 'mandrill'
   default: null
   providers:
     mandrill:
