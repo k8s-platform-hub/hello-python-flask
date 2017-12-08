@@ -8,3 +8,7 @@ import json
 @app.route("/")
 def hello():
   return render_template('index.html')
+
+# @app.route("/new")
+# def new():
+#   return "Hello world from new route"
