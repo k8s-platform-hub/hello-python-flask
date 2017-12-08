@@ -67,14 +67,7 @@ $ git push hasura master
 
 Once the above commands complete successfully, your project is deployed to your cluster.
 
-To check out your `flask` app
-
-```sh
-$ # www is the name of the flask app
-$ hasura microservice open www
-```
-
-Alternatively, you can also open up the URL directly in your browser by navigating to `https://www.<cluster-name>.hasura-app.io` (Replace `<cluster-name>` with your cluster name, this case `bogey45`)
+To check out your `flask` app, navigate to `https://www.<cluster-name>.hasura-app.io`. (Replace `<cluster-name>` with your cluster name, this case `bogey45`)
 
 The URL should render a webpage (`index.html`) from `microservices/www/app/src/templates/index.html`.
 
