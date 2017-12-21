@@ -1,162 +1,264 @@
 # hello-python-flask
 
-This quickstart consists of a basic hasura project with a simple Flask app running on it. Once this project is deployed, you will have the Flask app running on your [cluster](https://docs.hasura.io/0.15/manual/getting-started/index.html#concept-2-a-hasura-cluster).
-
-Follow along below to learn about how this quickstart works.
+Boilerplate Hasura project with [Flask](http://flask.pocoo.org/) microservice.
 
 ## Prerequisites
 
-* Ensure that you have the [hasura cli](https://docs.hasura.io/0.15/manual/install-hasura-cli.html) tool installed on your system.
-
-```sh
-$ hasura version
-```
-
-Once you have installed the hasura cli tool, login to your Hasura account
-
-```sh
-$ # Login if you haven't already
-$ hasura login
-```
-
-* You should also have [git](https://git-scm.com) installed.
-
-```sh
-$ git --version
-```
+- [Hasura CLI](https://docs.hasura.io/0.15/manual/install-hasura-cli.html)
+- [Git](https://git-scm.com)
+- [Python 3](https://www.python.org/downloads/) and [pip](https://pip.pypa.io/en/stable/installing/) (required only for local development)
 
 ## Getting started
 
-```sh
-$ # Get the project folder and create the cluster in one shot
-$ hasura quickstart hasura/hello-python-flask
+### Quickstart
 
-$ # Navigate into the Project
-$ cd hello-python-flask
-
+```bash
+# Quickstart from this boilerplate 
+$ hasura quickstart hello-python-flask
 ```
-
-![Quickstart](https://raw.githubusercontent.com/hasura/hello-python-flask/master/assets/quickstart.png "Quickstart")
 
 The `quickstart` command does the following:
-1. Creates a new folder in the current working directory called `hello-python-flask`
-2. Creates a new trial hasura cluster for you and sets that cluster as the default cluster for this project. (In this case, the cluster created is called `bogey45`)
-3. Initializes `hello-python-flask` as a git repository and adds the necessary git remotes.
 
-## The Hasura Cluster
+1. Creates a new directory `hello-python-flask` in the current working directory
+2. Creates a free Hasura cluster and sets it as the default for this project
+3. Sets up `hello-python-flask` as a git repository and adds `hasura` remote to push code
+4. Adds your SSH public key to the cluster so that you can push to it
 
-Everytime you perform a `hasura quickstart <quickstart-name>`, hasura creates a free cluster for you. Every cluster is given a name, in this case, the name of the cluster is `bogey45`. To view the status and other information about this cluster:
+### Deploy
 
-```sh
-$ hasura cluster status
-```
+```bash
+# Navigate to the project directory
+$ cd hello-python-flask
 
-![ClusterStatus](https://raw.githubusercontent.com/hasura/hello-python-flask/master/assets/clusterstatus.png "ClusterStatus")
-
-The `Cluster Configuration` says that the local and cluster configurations are different, this is because we have not deployed our local project to our cluster. Let's do that next.
-
-## Deploy app to cluster
-
-```sh
-$ # Ensure that you are in the hello-python-flask directory
-$ # Git add, commit & push to deploy to your cluster
-$ git add .
-$ git commit -m 'First commit'
+# git add, commit and push to deploy
+$ git add . && git commit -m "First commit"
 $ git push hasura master
 ```
 
-Once the above commands complete successfully, your project is deployed to your cluster.
+Once the git push completes, the Flask microservice (called `app`) will be available at a URL.
 
-To check out your `flask` app, navigate to `https://www.<cluster-name>.hasura-app.io`. (Replace `<cluster-name>` with your cluster name, this case `bogey45`)
+```bash
+# Open the flask app url in browser
+$ hasura microservice open app
+```
 
-The URL should render a webpage (`index.html`) from `microservices/www/app/src/templates/index.html`.
+If the browser shows a "Hasura Hello World" page, everything is working as expected.
+If it doesn't, go through the previous steps and see if you missed anything.
 
-## More on deployment
+## Flask Microservice
 
-### Deploying changes
+### Directory structure
 
-Now, lets make some changes to our `flask` app and then deploy those changes.
+The microservice is located in `microservices/app` directory in your Hasura project with the following structure:
 
-Modify the `server.py` file at `microservices/www/app/src/server.py` by uncommenting line 12 - 14
+```bash
+.
+├── Dockerfile
+├── k8s.yaml
+├── conf
+│   └── gunicorn_config.py
+└── src
+    ├── config.py
+    ├── hasuraExamples.py
+    ├── __init__.py
+    ├── requirements.txt
+    ├── server.py
+    ├── static
+    └── templates
+```
+
+### Change and deploy code
+
+#### Edit
+
+`server.py` is where the main app is present. You can edit this file and deploy the changes.
+For example, un-comment lines `2`, `11-13` to add new URL `/json`:
 
 ```python
-@app.route('/new')
-def new():
-  return "Hello world from new"
+from flask import jsonify
 
+@app.route("/json")
+def json_message():
+    return jsonify(message="Hello World")
 ```
 
-The above code is adding another route `/new` which returns "Hello world from new".
+These lines will add `/json` which returns `{"message": "Hello World"}`.
 
-Save `server.py`.
+#### Deploy
 
-To deploy these changes to your cluster, you just have to commit the changes to git and perform a git push to the `hasura` remote.
+Save the file, git add, commit and push to deploy the changes:
 
-```sh
-$ # Git add, commit & push to deploy to your cluster
-$ git add .
-$ git commit -m 'Added a new route'
+```bash
+# git add, commit and push to deploy
+$ git add src/server.py
+$ git commit -m "add new url /json"
 $ git push hasura master
 ```
 
-To see the changes, open the URL and navigate to `/new` (`https://www.<cluster-name>.hasura-app.io/new`, replace `<cluster-name>` with your cluster name)
+#### Verify
 
-### View Logs
+To checkout the new URL, open the microservice URL in a browser and navigate to `/json`:
 
-To view the logs for your microservice
+```bash
+# open the url in browser
+$ hasura microservice open app
 
-```sh
-$ # www is the service name
-$ hasura microservice logs www
+# add /json at the end of the url
 ```
 
-## Customize your deployment
+#### Debug
 
-### Dockerfile
+If the push fails with an error `Updating deployment failed`, or the URL is showing `502 Bad Gateway`/`504 Gateway Timeout`,
+follow the instruction on the page and checkout the logs to see what is going wrong with the microservice:
 
-Microservices on Hasura are deployed as Docker containers managed on a Kubernetes cluster. You can know more about this [here](https://docs.hasura.io/0.15/manual/custom-microservices/develop-custom-services/index.html#using-a-dockerfile)
+```bash
+# see status of microservice app
+$ hasura microservice list
 
-A `Dockerfile` contains the instructions for building the docker image. Therefore, understanding how the `Dockerfile` works will help you tweak this quickstart for your own needs.
+# get logs for app
+$ hasura microservice logs app
+```
 
-```Dockerfile
+You can deploy further changes by going through Edit->Deploy->Verify->Debug cycle again and again.
 
-# Fetches a base container which has python installed on it
-FROM python:3.5.2-alpine
+### Local development
 
-WORKDIR /usr/src/app
+With Hasura's easy and fast git-push-to-deploy feature, you hardly need to run your code locally.
+However, you can follow the steps below in case you have to run the code in your local machine.
+
+#### Without Docker
+
+It is recommended to use a [Virtual Environment](http://docs.python-guide.org/en/latest/dev/virtualenvs/) for Python when you are running locally.
+Don't forget to add these directories to `.gitignore` to avoid committing packages to source code repo.
+
+```bash
+# setup pipenv or virtualenv and activate it (see link above)
+
+# go to app directory
+$ cd microservices/app
+
+# install dependencies
+$ pip install -r src/requirements.txt
+
+# Optional: set an environment variable to run Hasura examples 
+# otherwise, remove Hasura examples, 
+#   delete lines 5-8 from `src/__init__.py`
+#   remove files `src/config.py` and `src/hasuraExamples.py`
+$ export CLUSTER_NAME=[your-hasura-cluster-name]
+
+# run the development server (change bind address if it's already used)
+$ gunicorn --reload --bind "0.0.0.0:8080" src:app
+```
+
+Go to [http://localhost:8080](http://localhost:8080) using your browser to see the development version on the app.
+You can keep the gunicorn server running and when you edit source code and save the files, the server will be reload the new code automatically.
+Once you have made required changes, you can [deploy them to Hasura cluster](#deploy).
+
+#### With Docker
+
+Install [Docker CE](https://docs.docker.com/engine/installation/) and cd to app directory:
+
+```bash
+# go to app directory
+$ cd microservices/app
+
+# build the docker image
+$ docker build -t hello-python-flask-app .
+
+# run the image with port bindings and CLUSTER_NAME environment variable
+# as mentioned above, remove Hasura examples if you don't want to add CLUSTER_NAME
+$ docker run --rm -it -p 8080:8080 -e CLUSTER_NAME=[your-hasura-cluster-name] hello-python-flask-app
+
+# app will be available at `http://localhost:8080`
+# press Ctrl+C to stop the running container
+```
+
+For any change you make to the source code, you will have to stop the container, build the image again and run a new container.
+If you mount the current directory as a volume, you can live-reload your code changes:
+
+```bash
+# go to app directory
+$ cd microservices/app
+
+# build the docker image
+$ docker build -t hello-python-flask-app .
+
+# run the container
+$ docker run --rm -it -p 8080:8080 \
+             -e CLUSTER_NAME=[your-hasura-cluster-name] \
+             -v $(pwd):/app \
+             hello-python-flask-app \ 
+             gunicorn --reload --bind "0.0.0.0:8080" src:app
+             
+# app will be available at `http://localhost:8080`
+# press Ctrl+C to stop the running container
+```
+
+Now, any change you make to your source code will be immediately updated on the running app.
+
+### Customize
+
+Hasura runs [microservices](https://docs.hasura.io/0.15/manual/custom-microservices/index.html) as Docker containers on a Kubernetes cluster.
+You can read about [Hasura architecture](https://docs.hasura.io/0.15/manual/cluster/architecture.html) in case you want to know more.
+
+#### Add a python dependency
+
+In order use new python package in your app, you can just add it to `src/requirements.txt` and the git-push or docker build process will
+automatically install the package for you. If the `pip install` steps thorw some errors in demand of a system dependency,
+you can install those by adding it to the `Dockerfile` at the correct place.
+
+```
+# src/requirements.txt:
+
+flask
+requests
+gunicorn
+
+# add your new packages one per each line
+```
+
+#### Add a system dependency
+
+The base image used in this boilerplate is [python:3](https://hub.docker.com/_/python/) debian. Hence, all debian packages are available for installation.
+You can add a package by mentioning it in the `Dockerfile` among the existing `apt-get install` packages.
+
+```dockerfile
+# Dockerfile
+
+FROM python:3
+
+# install required debian packages
+# add any package that is required after `python-dev`, end the line with \
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    python-dev \
+&& rm -rf /var/lib/apt/lists/*
 
 # install requirements
-# this way when you build you won't need to install again
-# and since COPY is cached we don't need to wait
-COPY app/src/requirements.txt /tmp/requirements.txt
+COPY src/requirements.txt /tmp/requirements.txt
 RUN pip3 install -r /tmp/requirements.txt
 
-COPY app /usr/src/app
+# set /app as working directory
+WORKDIR /app
 
-# App port number is configured through the gunicorn config file
+# copy current directory to /app
+COPY . /app
+
+# run gunicorn server
+# port is configured through the gunicorn config file
 CMD ["gunicorn", "--config", "./conf/gunicorn_config.py", "src:app"]
 
 ```
 
-### Migrating existing app
+#### Deploy your existing Flask app
 
-If you already have a prebuilt flask app and would want to use that. You have to replace the contents inside the `microservices/www/app/src` directory with your app files.
+If you already have a Flask app and want to deploy it onto Hasura, you can replace the contents of `src/` directory with your own app.
 
-What matters is that the `Dockerfile` and the `k8s.yaml` file remain where they are, i.e at `microservices/www/`. Ensure that you make the necessary changes to the `Dockerfile` such that it runs your app. You can learn more about `Docker` and `Dockerfiles` from [here](https://docs.docker.com/)
-
-## Running the app locally
-
-Everytime you push, your code will get deployed on a public URL. However, for faster iteration you should locally test your changes.
-
-You can use the following steps to test out your dockerfile locally before pushing it to your cluster
-
-```sh
-$ # Navigate to the www directory
-$ cd microservices/www
-
-$ # Build the docker image (Note the . at the end, this searches for the Dockerfile in the current directory)
-$ docker build -t python-flask .
-
-$ # Run the command inside the container and publish the containers port 8080 to the localhost 8080 of your machine
-$ docker run -p 8080:8080 -ti python-flask
-```
+- Leave `k8s.yaml`, `Dockerfile` and `conf/` as it is.
+- Make sure there is already a `requirements.txt` file present inside the new `src/` indicating all your python dependencies.
+- If there are any system dependencies, add and configure them in `Dockerfile`.
+- If the Flask app is not called `app`, change the last line in `Dockerfile` reflect the same.  
+  For example, if the app is called `backend`, the `CMD` line in `Dockerfile` will become:  
+  ```dockerfile
+  CMD ["gunicorn", "--config", "./conf/gunicorn_config.py", "src:backend"]
+  ```

@@ -17,9 +17,10 @@ remotes:
   {{ cluster.name }}:        # DO NOT edit this line
     <<: {}                   # DO NOT edit this line
 
+    '{{ cluster.metadata.namespaces.user }}.app':
+      app:
+        dockerfile: microservices/app/Dockerfile
+        path: microservices/app
+
     # Add output of `hasura conf generate-remote` below this line
-    '{{ cluster.metadata.namespaces.user }}.www':
-      www:
-        dockerfile: microservices/www/Dockerfile
-        path: microservices/www
 
