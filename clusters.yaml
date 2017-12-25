@@ -3,5 +3,12 @@
     configmap: controller-conf
     namespace: hasura
   data: null
+  kubeContext: cheviot86
+  name: cheviot86
+- alias: new
+  config:
+    configmap: controller-conf
+    namespace: hasura
+  data: null
   kubeContext: boardroom80
   name: boardroom80
