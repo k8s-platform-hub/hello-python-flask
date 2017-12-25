@@ -35,7 +35,7 @@ $ git add . && git commit -m "First commit"
 $ git push hasura master
 ```
 
-Once the git push completes, the Flask microservice (called `app`) will be available at a URL.
+Once the git push goes through, Flask microservice (called `app`) will be available at a URL.
 
 ```bash
 # Open the flask app url in browser
@@ -56,7 +56,7 @@ The microservice is located in `microservices/app` directory in your Hasura proj
 ├── Dockerfile
 ├── k8s.yaml
 ├── conf
-│   └── gunicorn_config.py
+│   └── gunicorn_config.py
 └── src
     ├── config.py
     ├── hasuraExamples.py
@@ -120,6 +120,30 @@ $ hasura microservice logs app
 ```
 
 You can deploy further changes by going through Edit->Deploy->Verify->Debug cycle again and again.
+
+### Using a database
+
+Hasura comes with a pre-configured ready-to-use PostgreSQL database, which can be contacted over HTTP JSON APIs. You can use this database from client side or server side just by making HTTP API calls with JSON data. There are no DB connection strings or ORMs to worry about.
+
+#### API Console
+
+The best place to get started with APIs is [Hasura API Console](https://docs.hasura.io/0.15/manual/api-console/index.html).
+
+```bash
+$ hasura api-console
+```
+
+This command will run a small web server and opens up API Console in a new browser tab.
+There are already some tables created along with this boilerplate, like `article` and `author`.
+These tables were created using [migrations](https://docs.hasura.io/0.15/manual/data/data-migration.html).
+Every change you make on the console is saved as a migration inside `migrations/` directory.
+
+#### Using Data APIs
+
+- Create required tables/columns using API Console (Data -> Schema)
+- Use Query Builder under API Explorer and create the query
+- Click on Generate API Code button and select Python Requests
+- Copy and paste the python code into your flask app source code
 
 ### Local development
 
@@ -252,13 +276,14 @@ CMD ["gunicorn", "--config", "./conf/gunicorn_config.py", "src:app"]
 
 #### Deploy your existing Flask app
 
-If you already have a Flask app and want to deploy it onto Hasura, you can replace the contents of `src/` directory with your own app.
+If you already have a Flask app and want to deploy it onto Hasura, read ahead:
 
+- Replace the contents of `src/` directory with your own app's python files.
 - Leave `k8s.yaml`, `Dockerfile` and `conf/` as it is.
 - Make sure there is already a `requirements.txt` file present inside the new `src/` indicating all your python dependencies.
 - If there are any system dependencies, add and configure them in `Dockerfile`.
-- If the Flask app is not called `app`, change the last line in `Dockerfile` reflect the same.  
-  For example, if the app is called `backend`, the `CMD` line in `Dockerfile` will become:  
+- If the Flask app is not called `app`, change the last line in `Dockerfile` reflect the same.
+  For example, if the app is called `backend`, the `CMD` line in `Dockerfile` will become:
   ```dockerfile
   CMD ["gunicorn", "--config", "./conf/gunicorn_config.py", "src:backend"]
   ```
