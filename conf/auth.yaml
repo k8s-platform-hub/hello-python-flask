@@ -153,6 +153,8 @@ password:
 #     signup: "https://mycustomprovider.test42.hasura-app.io/signup"
 #     login: "https://mycustomprovider.test42.hasura-app.io/login"
 #     merge: "https://mycustomprovider.test42.hasura-app.io/merge"
+#     createUser: "https://mycustomprovider.test42.hasura-app.io/create-user"
+#     deleteUser: "https://mycustomprovider.test42.hasura-app.io/delete-user"
 #  defaultRoles: ["admin"]
 
 
