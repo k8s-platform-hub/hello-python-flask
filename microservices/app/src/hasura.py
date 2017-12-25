@@ -6,7 +6,7 @@ from flask import Blueprint, jsonify, request, redirect
 
 PRODUCTION_ENV = os.environ.get("PRODUCTION")
 CLUSTER_NAME = os.environ.get("CLUSTER_NAME")
-if cluster_name is None:
+if CLUSTER_NAME is None:
     print("""
     Set the name of your cluster as an environment variable and start again:
 
@@ -20,7 +20,7 @@ if PRODUCTION_ENV == "true":
     dataUrl = "http://data.hasura/v1/query"
 else:
     # for local development, contact the cluster via external url
-    dataUrl = "https://data." + cluster_name + ".hasura-app.io/v1/query"
+    dataUrl = "https://data." + CLUSTER_NAME + ".hasura-app.io/v1/query"
 
 hasura_examples = Blueprint('hasura_examples', __name__)
 
@@ -46,10 +46,10 @@ def get_articles():
 
 @hasura_examples.route("/logged_in_user")
 def logged_in_user():
-    user_id = requests.headers.get('X-Hasura-User-Id')
+    user_id = request.headers.get('X-Hasura-User-Id')
     if user_id is None:
         return redirect(
-            "https://auth."+cluster_name+".hasura-app.io/ui?redirect_to=https://app."+cluster_name+".hasura-app.io/logged_in_user"
+            "https://auth."+CLUSTER_NAME+".hasura-app.io/ui?redirect_to=https://app."+CLUSTER_NAME+".hasura-app.io/logged_in_user"
         )
     else:
         return jsonify(user_id=user_id, message="Welcome logged in user!")
