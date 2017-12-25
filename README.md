@@ -229,36 +229,6 @@ But, if the cookie or the authorization header does resolve to a user, gateway g
 
 Hence, other microservices need not manage sessions and can just rely on `X-Hasura-Role` and `X-Hasura-User-Id` headers.
 
-### Auth UI
-
-Hasura Auth APIs comes with a beautiful built-in user interface for common actions like login, signup etc. You can use these directly with your flask application avoid building any user interface for logging in etc.
-
-```bash
-# checkout the auth api user interface
-$ hasura microservices open auth -n hasura
-```
-
-### Example
-
-Here's how you can use the UI in your own flask app. This boilerplate has a `/logged_in_user`
- endpoint written in flask which will redirect to Auth UI in case the user is not logged in and once the user logs in or signs up, it shows the user's details.
- 
-```python
-# hasura.py
-
-@hasura_examples.route("/logged_in_user")
-def logged_in_user():
-    user_id = requests.headers.get('X-Hasura-User-Id')
-    if user_id is None:
-        return redirect(
-            "https://auth."+cluster_name+".hasura-app.io/ui?redirect_to=https://app."+cluster_name+".hasura-app.io/logged_in_user"
-        )
-    else:
-        return jsonify(user_id=user_id, message="Welcome logged in user!")
-```
-
-If a user is logged in, `X-Hasura-User-Id` will be set. Otherwise, the user is anonymous and hence redirect to login page. If there is a user id, show a message.
-
 ## Customize
 
 Hasura runs [microservices](https://docs.hasura.io/0.15/manual/custom-microservices/index.html) as Docker containers on a Kubernetes cluster.

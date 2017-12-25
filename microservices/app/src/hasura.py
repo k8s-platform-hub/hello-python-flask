@@ -2,7 +2,7 @@ import json
 import os
 import sys
 import requests
-from flask import Blueprint, jsonify, request, redirect
+from flask import Blueprint, jsonify
 
 PRODUCTION_ENV = os.environ.get("PRODUCTION")
 CLUSTER_NAME = os.environ.get("CLUSTER_NAME")
@@ -43,13 +43,3 @@ def get_articles():
     data = response.json()
     print(json.dumps(data))
     return jsonify(data=data)
-
-@hasura_examples.route("/logged_in_user")
-def logged_in_user():
-    user_id = request.headers.get('X-Hasura-User-Id')
-    if user_id is None:
-        return redirect(
-            "https://auth."+CLUSTER_NAME+".hasura-app.io/ui?redirect_to=https://app."+CLUSTER_NAME+".hasura-app.io/logged_in_user"
-        )
-    else:
-        return jsonify(user_id=user_id, message="Welcome logged in user!")
