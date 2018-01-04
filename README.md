@@ -2,13 +2,14 @@
 
 Boilerplate Hasura project with [Flask](http://flask.pocoo.org/) microservice.
 
-## Prerequisites
+
+## Getting started
+
+### Prerequisites
 
 - [Hasura CLI](https://docs.hasura.io/0.15/manual/install-hasura-cli.html)
 - [Git](https://git-scm.com)
 - [Python 3](https://www.python.org/downloads/) and [pip](https://pip.pypa.io/en/stable/installing/) (required only for local development)
-
-## Getting started
 
 ### Quickstart
 
@@ -44,7 +45,6 @@ $ hasura microservice open app
 
 If the browser shows a "Hasura Hello World" page, everything is working as expected.
 If it doesn't, go through the previous steps and see if you missed anything.
-
 
 
 ## Edit and deploy code
