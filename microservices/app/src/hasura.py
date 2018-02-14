@@ -112,7 +112,7 @@ def files():
             return "Something went wrong while trying to fetch files: " + resp.text
 
         files = resp.json()
-        return render_template('user.html',
+        return render_template('user_file.html',
             **{
                 'base_domain': request.headers['X-Hasura-Base-Domain'],
                 'files': request.headers['X-Hasura-User-Id']
