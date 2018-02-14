@@ -16,6 +16,7 @@
                     <label>Size:</label> {{file.file_size}}<br/>
                 </li>
                 {% endfor %}
+            </ul>
             <hr/>
             <input id="file_input" type="file">
             <button id="file_submit">Upload</button>
@@ -26,8 +27,8 @@
                 upload_btn.onclick = function () {
 
                     var url = "https://filestore.{{base_domain}}/v1/file";
-                    // This is the file we are going to upload, replace this with your file
                     var file = file_input.files[0];
+
                     var requestOptions = {
                         method: 'POST',
                         body: file,

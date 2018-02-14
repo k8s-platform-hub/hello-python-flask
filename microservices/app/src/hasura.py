@@ -115,5 +115,5 @@ def files():
         return render_template('user_file.html',
             **{
                 'base_domain': request.headers['X-Hasura-Base-Domain'],
-                'files': request.headers['X-Hasura-User-Id']
+                'files': files
             })
