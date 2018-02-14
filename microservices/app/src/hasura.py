@@ -8,11 +8,14 @@ from src import app
 # // Second: Uncomment the line below
 # dataUrl = 'http://localhost:9000/v1/query'
 
+# When deployed to your cluster, use this:
 dataUrl = 'http://data.hasura/v1/query'
 
 @app.route("/examples/get-data")
 def get_articles():
-    if ('hasura-app.io' in request.url_root) or ('data.hasura' not in dataUrl):
+    if ('hasura-app.io' in request.url_root) or \
+       ('data.hasura' not in dataUrl):
+
         query = {
             "type": "select",
             "args": {
@@ -23,6 +26,7 @@ def get_articles():
                 "limit": 10
             }
         }
+
         response = requests.post(dataUrl, data=json.dumps(query))
         if response.status_code == 200:
             return jsonify(response.json())
@@ -30,4 +34,14 @@ def get_articles():
             return 'Something went wrong: <br/>' + str(response.status_code) + '<br/>' + response.text
 
     # Change the data URL during local development
-    return ("Edit the dataUrl variable in <code>microservices/app/src/hasura.py</code> to test locally.")
+    return ("""Edit the dataUrl variable in
+        <code>microservices/app/src/hasura.py</code>
+        to test locally.""")
+
+@app.route("/examples/auth")
+def user_info():
+    return str(request.headers['X-Hasura-Allowed-Roles'])
+#     if request.headers['x-hasura-allowed-roles'] is 'anonymous':
+#         return "Login at: <a href='auth/ui/login?redirect=here'>login</a>"
+#     else:
+#         return "You are: " + request.headers['x-hasura-user-id']
