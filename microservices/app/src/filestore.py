@@ -27,7 +27,7 @@ def user_files():
 
     # If user is not logged in (via Hasura's auth)
     if ('anonymous' in request.headers['x-hasura-allowed-roles']):
-        return render_template('anonymous_file.html',
+        return render_template('filestore_anonymous.html',
             **{'base_domain': request.headers['X-Hasura-Base-Domain']})
 
     # If user is logged in, show the user files they have uploaded
@@ -55,7 +55,7 @@ def user_files():
             return "Something went wrong while trying to fetch files: " + resp.text
 
         files = resp.json()
-        return render_template('user_file.html',
+        return render_template('filestore_user.html',
             **{
                 'base_domain': request.headers['X-Hasura-Base-Domain'],
                 'files': files

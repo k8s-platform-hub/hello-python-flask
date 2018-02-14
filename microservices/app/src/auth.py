@@ -20,12 +20,12 @@ def user_info():
 
     # If user is not logged in (via Hasura's auth)
     if ('anonymous' in request.headers['x-hasura-allowed-roles']):
-        return render_template('anonymous.html',
+        return render_template('auth_anonymous.html',
             **{'base_domain': request.headers['X-Hasura-Base-Domain']})
 
     # If user is logged in
     else:
-        return render_template('user.html',
+        return render_template('auth_user.html',
             **{
                 'base_domain': request.headers['X-Hasura-Base-Domain'],
                 'user_id': request.headers['X-Hasura-User-Id'],
