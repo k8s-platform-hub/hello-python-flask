@@ -6,9 +6,9 @@ from src import app
 # // First: connect to Hasura Data APIs directly on port 9000
 # // $ hasura ms port-forward data -n hasura --local-port=9000
 # // Second: Uncomment the line below
-dataUrl = 'http://localhost:9000/v1/query'
+# dataUrl = 'http://localhost:9000/v1/query'
 
-# dataUrl = 'http://data.hasura/v1/query'
+dataUrl = 'http://data.hasura/v1/query'
 
 @app.route("/examples/get-data")
 def get_articles():
