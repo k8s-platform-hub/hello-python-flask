@@ -1,45 +1,31 @@
-import json
-import os
-import sys
-import requests
-from flask import Blueprint, jsonify
+from flask import jsonify, request
+from src import app
 
-PRODUCTION_ENV = os.environ.get("PRODUCTION")
-CLUSTER_NAME = os.environ.get("CLUSTER_NAME")
-if CLUSTER_NAME is None:
-    print("""
-    Set the name of your cluster as an environment variable and start again:
+# // For local development,
+# // First: connect to Hasura Data APIs directly on port 9000
+# // $ hasura ms port-forward data -n hasura --local-port=9000
+# // Second: Uncomment the line below
+# dataUrl = 'http://localhost:9000'
 
-    $ export CLUSTER_NAME=<cluster-name>
+dataUrl = 'http://data.hasura/v1/query'
 
-    """)
-
-if PRODUCTION_ENV == "true":
-    # set dataUrl as internal url if PRODUCTION_ENV is true
-    # note that internal url has admin permissions
-    dataUrl = "http://data.hasura/v1/query"
-else:
-    # for local development, contact the cluster via external url
-    dataUrl = "https://data." + CLUSTER_NAME + ".hasura-app.io/v1/query"
-
-hasura_examples = Blueprint('hasura_examples', __name__)
-
-@hasura_examples.route("/get_articles")
+@app.route("/get_articles")
 def get_articles():
-    query = {
-        "type": "select",
-        "args": {
-            "table": "article",
-            "columns": [
-                "*"
-            ]
+    if 'hasura-app.io' in request.url_root:
+        query = {
+            "type": "select",
+            "args": {
+                "table": "article",
+                "columns": [
+                    "*"
+                ]
+            }
         }
-    }
-    print(dataUrl)
-    print(json.dumps(query))
-    response = requests.post(
-        dataUrl, data=json.dumps(query)
-    )
-    data = response.json()
-    print(json.dumps(data))
-    return jsonify(data=data)
+        response = requests.post(dataUrl, data=json.dumps(query))
+        if response.status_code == 200:
+            return jsonify(response.json())
+        else:
+            return 'Something went wrong: <br/>' + response.status_code + '<br/>' + response.text
+
+    # Change the data URL during local development
+    return ("Edit the dataUrl variable in <code>microservices/app/src/hasura.py</code> to test locally.")
