@@ -104,7 +104,7 @@ def files():
         }
 
         # Make the query and store response in resp
-        resp = requests.post(url, data=json.dumps(requestPayload))
+        resp = requests.post(dataUrl, data=json.dumps(requestPayload))
 
         # resp.content contains the json response.
         if not(resp.status_code == 200):
