@@ -3,19 +3,5 @@
     configmap: controller-conf
     namespace: hasura
   data: null
-  kubeContext: cheviot86
-  name: cheviot86
-- alias: new
-  config:
-    configmap: controller-conf
-    namespace: hasura
-  data: null
-  kubeContext: boardroom80
-  name: boardroom80
-- alias: danava
-  config:
-    configmap: controller-conf
-    namespace: accordance89-hasura
-  data: null
-  kubeContext: accordance89
-  name: accordance89
+  kubeContext: abaft85
+  name: abaft85
