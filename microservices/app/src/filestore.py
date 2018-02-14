@@ -1,0 +1,62 @@
+import requests, json
+from flask import jsonify, request, render_template
+from src import app
+
+# // For local development,
+# // First: connect to Hasura Data APIs directly on port 9000
+# // $ hasura ms port-forward data -n hasura --local-port=9000
+# // Second: Uncomment the line below
+# dataUrl = 'http://localhost:9000/v1/query'
+
+# When deployed to your cluster, use this:
+dataUrl = 'http://data.hasura/v1/query'
+
+@app.route("/examples/filestore")
+def user_files():
+    """
+        Sample endpoint that allows logged in users to upload files
+        and shows users the files they've uploaded.
+    """
+    print (str(request.headers))
+
+    # Local development will need you to add custom headers
+    if 'x-hasura-allowed-roles' not in [x.lower() for x in request.headers.keys()]:
+        return """This route can only be accessed
+            via the Hasura API gateway.
+            Deploy with <code>git push</code> and then test this route."""
+
+    # If user is not logged in (via Hasura's auth)
+    if ('anonymous' in request.headers['x-hasura-allowed-roles']):
+        return render_template('anonymous_file.html',
+            **{'base_domain': request.headers['X-Hasura-Base-Domain']})
+
+    # If user is logged in, show the user files they have uploaded
+    else:
+        # Query from the fileupload table to fetch files
+        # this user owns.
+        requestPayload = {
+            "type": "select",
+            "args": {
+                "table": {
+                    "name": "hf_file",
+                    "schema": "hf_catalog"
+                },
+                "columns": [ "*" ],
+                "where": {"user_id": request.headers['x-hasura-user-id']}
+            }
+        }
+
+        # Make the query and store response in resp
+        resp = requests.post(dataUrl, data=json.dumps(requestPayload))
+
+        # resp.content contains the json response.
+        if not(resp.status_code == 200):
+            print (resp.text)
+            return "Something went wrong while trying to fetch files: " + resp.text
+
+        files = resp.json()
+        return render_template('user_file.html',
+            **{
+                'base_domain': request.headers['X-Hasura-Base-Domain'],
+                'files': files
+            })
