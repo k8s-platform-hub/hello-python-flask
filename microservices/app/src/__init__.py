@@ -8,4 +8,6 @@ app = Flask(__name__)
 # app.register_blueprint(hasura_examples)
 
 from .server import *
-from .hasura import *
+from .data import *
+from .auth import *
+from .filestore import *
