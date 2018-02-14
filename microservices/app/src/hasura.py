@@ -1,3 +1,4 @@
+import requests
 from flask import jsonify, request
 from src import app
 
