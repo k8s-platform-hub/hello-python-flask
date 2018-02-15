@@ -14,26 +14,39 @@ dataUrl = 'http://data.hasura/v1/query'
 @app.route("/examples/filestore")
 def user_files():
     """
-        Sample endpoint that allows logged in users to upload files
-        and shows users the files they've uploaded.
+        This route renders a file-upload page for users.
+
+        Not logged-in users (anonymous):
+            > request that they login
+
+        logged-in users (anonymous):
+            > list files they own
+            > show file-upload box
+
+        The file-upload and download API uses hasura's filestore APIs
+        so you will notice that this code has no file-handling code!
+
     """
     print (str(request.headers))
 
+    # Important only for local development. Ignore otherwise.
     # Local development will need you to add custom headers
     if 'x-hasura-allowed-roles' not in [x.lower() for x in request.headers.keys()]:
         return """This route can only be accessed
             via the Hasura API gateway.
             Deploy with <code>git push</code> and then test this route."""
 
-    # If user is not logged in (via Hasura's auth)
+    # If user is not logged in
     if ('anonymous' in request.headers['x-hasura-allowed-roles']):
-        return render_template('filestore_anonymous.html',
-            **{'base_domain': request.headers['X-Hasura-Base-Domain']})
+        return render_template(
+            'filestore_anonymous.html',
+            **{'base_domain': request.headers['X-Hasura-Base-Domain']}
+        )
 
     # If user is logged in, show the user files they have uploaded
     else:
-        # Query from the fileupload table to fetch files
-        # this user owns.
+        # Query from the file-upload table to fetch files this user owns.
+        # We're using the Hasura data APIs to query
         requestPayload = {
             "type": "select",
             "args": {
@@ -46,7 +59,6 @@ def user_files():
             }
         }
 
-        # Make the query and store response in resp
         resp = requests.post(dataUrl, data=json.dumps(requestPayload))
 
         # resp.content contains the json response.
