@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hello world - Python Flask</title>
+        <style>
+            body {font-family: sans-serif; line-height: 23px;}
+            code {color: #222; background: #f9f9f9;}
+        </style>
+    </head>
+    <body style="color: #333">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <a href="/">Back to /</a>
+            <div style="float: right;">[Source: <code>microservices/app/src/filestore.py</code>]</div>
+            <br/>
+            <h1>Your files</h1>
+            <hr/>
+            <ul>
+                {% if files|length == 0 %}
+                    You haven't uploaded any files yet.
+                {% else %}
+                    {% for file in files %}
+                    <li>
+                        <label>Id:</label> {{file.file_id}}<br/>
+                        <label>Type:</label> {{file.content_type}}<br/>
+                        <label>Size:</label> {{file.file_size}} bytes<br/>
+                        <label>Link:</label> <a href="http://filestore.{{base_domain}}/v1/file/{{file.file_id}}" target="_blank">Download</a><br/>
+                    </li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+            <hr/>
+            <input id="file_input" type="file">
+            <button id="file_submit">Upload</button>
+
+            <script>
+                var upload_btn = document.getElementById('file_submit');
+                var file_input = document.getElementById('file_input');
+                upload_btn.onclick = function () {
+
+                    if !(file_input || file_input.files || file_input.files[0]) {
+                        upload_btn.innerHTML = 'Please select a file and try again';
+                        return;
+                    }
+
+                    var url = "https://filestore.{{base_domain}}/v1/file";
+                    var file = file_input.files[0];
+
+                    var requestOptions = {
+                        method: 'POST',
+                        body: file,
+                        // For local development, remember to insert an authorization header here.
+                        // By default, the session cookie is automatically used!
+                        credentials: 'include'
+                    };
+
+                    upload_btn.innerHTML = 'Uploading...';
+                    fetch(url, requestOptions)
+                        .then(function(response) {
+                            upload_btn.innerHTML = 'Uploaded!';
+                            window.location.reload();
+                        })
+                        .catch(function(error) {
+                            alert('Upload failed:' + error);
+                        });
+                };
+            </script>
+
+            <hr/>
+            <a href="http://auth.{{base_domain}}/ui/logout?redirect_url=https%3A%2F%2Fapp.{{base_domain}}%2Fexamples%2Ffilestore">Logout</a>
+        </div>
+    </body>
+</html>
