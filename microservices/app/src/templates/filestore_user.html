@@ -23,7 +23,7 @@
                         <label>Id:</label> {{file.file_id}}<br/>
                         <label>Type:</label> {{file.content_type}}<br/>
                         <label>Size:</label> {{file.file_size}}<br/>
-                        <label>Download link:</label> <a href="http://filestore.{{base_domain}}/v1/filestore/{{file.file_size}}">http://filestore.{{base_domain}}/v1/filestore/{{file.file_size}}</a><br/>
+                        <label>Download link:</label> <a href="http://filestore.{{base_domain}}/v1/filestore/{{file.file_size}}">http://filestore.{{base_domain}}/v1/filestore/{{file.file_id}}</a><br/>
                     </li>
                     {% endfor %}
                 {% endif %}
