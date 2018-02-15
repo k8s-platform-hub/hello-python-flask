@@ -1,108 +1,31 @@
-# hello-python-flask
+## What does this come with
 
-Boilerplate Hasura project with [Flask](http://flask.pocoo.org/) microservice.
+- Boilerplate code, configuration for:
+  - python3 flask setup with a `requirements.txt` file
+  - Gunicorn integration
+  - Hot reloading for local development
+  - Ready to go Dockerfile that will automatically install deps from `requirements.txt`
 
 
-## Getting started
+### Deployment instructions
 
-### Prerequisites
+### Basic deployment:
 
-- [Hasura CLI](https://docs.hasura.io/0.15/manual/install-hasura-cli.html)
-- [Git](https://git-scm.com)
-- [Python 3](https://www.python.org/downloads/) and [pip](https://pip.pypa.io/en/stable/installing/) (required only for local development)
-
-### Quickstart
-
-```bash
-# Quickstart from this boilerplate 
-$ hasura quickstart hello-python-flask
+* Press the **Clone & Deploy** button above and follow the instructions.
+   * The `hasura quickstart` command clones the project repository to your local system and also creates a **free Hasura cluster** where the project will be hosted for free.
+   * A git remote (called hasura) is created and initialized with your project directory.
+   * `git push hasura master` builds and deploys the project to the created Hasura cluster.
+* The python-flask app is deployed as a microservice called **app**.
+   * Run the below command to open your app:
+``` shell
+ $ hasura microservice open app
 ```
 
-The `quickstart` command does the following:
+### Making changes to your source code and deploying
 
-1. Creates a new directory `hello-python-flask` in the current working directory
-2. Creates a free Hasura cluster and sets it as the default for this project
-3. Sets up `hello-python-flask` as a git repository and adds `hasura` remote to push code
-4. Adds your SSH public key to the cluster so that you can push to it
-
-### Deploy
-
-```bash
-# Navigate to the project directory
-$ cd hello-python-flask
-
-# git add, commit and push to deploy
-$ git add . && git commit -m "First commit"
-$ git push hasura master
-```
-
-Once the git push goes through, Flask microservice (called `app`) will be available at a URL.
-
-```bash
-# Open the flask app url in browser
-$ hasura microservice open app
-```
-
-If the browser shows a "Hasura Hello World" page, everything is working as expected.
-If it doesn't, go through the previous steps and see if you missed anything.
-
-
-## Edit and deploy code
-
-### Directory structure
-
-The flask microservice is located in `microservices/app` directory in your Hasura project with the following structure:
-
-```bash
-.
-├── Dockerfile                   # instructions to build the image
-├── k8s.yaml                     # defines how the app is deployed
-├── conf
-│   └── gunicorn_config.py       # configuration for the web server
-└── src
-    ├── config.py                # some utilities to configure URLs etc
-    ├── hasura.py                # hasura API examples
-    ├── __init__.py              # main Flask app is defined here
-    ├── requirements.txt         # python dependency requirements
-    └── server.py                # main Flask server code
-```
-
-### Edit
-
-`server.py` is where the main app is present. You can edit this file and deploy the changes.
-For example, un-comment lines `2`, `11-13` to add new URL `/json`:
-
-```python
-from flask import jsonify
-
-@app.route("/json")
-def json_message():
-    return jsonify(message="Hello World")
-```
-
-These lines will add `/json` which returns `{"message": "Hello World"}`.
-
-### Deploy
-
-Save the file, git add, commit and push to deploy the changes:
-
-```bash
-# git add, commit and push to deploy
-$ git add src/server.py
-$ git commit -m "add new url /json"
-$ git push hasura master
-```
-
-### Verify
-
-To checkout the new URL, open the microservice URL in a browser and navigate to `/json`:
-
-```bash
-# open the url in browser
-$ hasura microservice open app
-
-# add /json at the end of the url
-```
+* To make changes to the app, browse to `/microservices/app/src` and edit the python files according to your requirements.
+* For example, make changes to `server.py` or to `templates/index.html` to change the landing page.
+* Commit the changes, and run `git push hasura master` to deploy the changes.
 
 ### Debug
 
@@ -371,4 +294,5 @@ $ docker run --rm -it -p 8080:8080 \
 ```
 
 Now, any change you make to your source code will be immediately updated on the running app.
+
 
