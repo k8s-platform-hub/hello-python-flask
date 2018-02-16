@@ -4,8 +4,8 @@ Boilerplate for a [Flask](http://flask.pocoo.org/) microservice.
 
 ## Add a python dependency
 
-In order use new python package in your app, you can just add it to `src/requirements.txt` and the git-push or docker build process will
-automatically install the package for you. If the `pip install` steps thorw some errors in demand of a system dependency,
+In order to use new python package in your app, you can just add it to `src/requirements.txt` and the git-push or docker build process will
+automatically install the package for you. If the `pip install` steps throw some errors in demand of a system dependency,
 you can install those by adding it to the `Dockerfile` at the correct place.
 
 ```
