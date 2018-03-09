@@ -114,6 +114,10 @@ password:
 #google:
 #  # list of the all the client ids generated for your Google app
 #  clientIds: ["xxxxxx", "yyyyyy"]
+#  clientSecret:
+#    secretKeyRef:
+#      key: auth.google.client_secret
+#      name: hasura-secrets
 #
 # Configuration for facebook provider
 #facebook:
