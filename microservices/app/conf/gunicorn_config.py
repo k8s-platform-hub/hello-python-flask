@@ -10,6 +10,6 @@ access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
 loglevel = "debug"
 capture_output = True
 enable_stdio_inheritance = True
-# To enable hot reload, uncomment the below line
 # reload = True
+# To enable hot reload, uncomment the above line
 # and run hasura ms sync microservices/app/src app:/app/src
