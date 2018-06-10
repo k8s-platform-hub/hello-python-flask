@@ -11,7 +11,7 @@ items:
     namespace: '{{ cluster.metadata.namespaces.user }}'
   spec:
     replicas: 1
-    strategy: {}
+    strategy: '{}'
     template:
       metadata:
         creationTimestamp: null
@@ -24,16 +24,16 @@ items:
           - name: PRODUCTION
             value: "true"
           - name: CLUSTER_NAME 
-            value: {{ cluster.name }}
+            value: '{{ cluster.name }}'
           imagePullPolicy: IfNotPresent
           name: app
           ports:
           - containerPort: 8080
             protocol: TCP
-          resources: {}
-        securityContext: {}
+          resources: '{}'
+        securityContext: '{}'
         terminationGracePeriodSeconds: 0
-  status: {}
+  status: '{}'
 - apiVersion: v1
   kind: Service
   metadata:
@@ -52,6 +52,6 @@ items:
       app: app
     type: ClusterIP
   status:
-    loadBalancer: {}
+    loadBalancer: '{}'
 kind: List
-metadata: {}
+metadata: '{}'
