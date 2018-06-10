@@ -1,7 +1,6 @@
+clusters:
 - alias: hasura
-  config:
-    configmap: controller-conf
-    namespace: hasura
   data: null
-  kubeContext: abaft85
-  name: abaft85
+  infra:
+    provider: hasura-free
+version: v1
